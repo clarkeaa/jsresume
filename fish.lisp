@@ -9,9 +9,16 @@
 (defvar *fps* 30)
 (defvar *frame* 0)
 (defvar *fish-direction* 1)
+(defvar *fish-width* 240)
+(defvar *fish-height* 160)
 
 (defmacro ctx (func &rest args) (cons `(@ *ctx* ,func) args))
 (defmacro clear () `(ctx clearRect 0 0 *width* *height*))
+(defmacro with-ctx (&body body)
+  `(progn 
+     (ctx save)
+     ,@body
+     (ctx restore)))
 
 (defun draw-loc-widget ()
   (setf (@ *ctx* fillStyle) "#ff0000")
@@ -60,17 +67,18 @@
       (0 (setf fish ((@ document getElementById) "fish1")))
       (1 (setf fish ((@ document getElementById) "fish2")))
       (2 (setf fish ((@ document getElementById) "fish3"))))
-    (ctx save)
-    (case *fish-direction*
-      (-1 (progn
-            (ctx translate 300 0)
-            (ctx scale -1 1)))
-      (1 (progn
-           (ctx scale 1 1))))
-    (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
-      (ctx translate 0 yoffset))
-    (ctx drawImage fish 0 0)
-    (ctx restore)))
+    (with-ctx
+        (case *fish-direction*
+          (-1 (progn
+                (ctx translate 300 0)
+                (ctx scale -1 1)))
+          (1 (progn
+               (ctx scale 1 1))))
+      (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
+        (ctx translate 0 yoffset))
+      ;; (let ((scalar (+ 0.5 (/ *position* 100))))
+      ;;   (ctx scale scalar scalar))
+      (ctx drawImage fish 0 0))))
 
 (defun draw ()
   (clear)

@@ -8,6 +8,8 @@ var GROUNDHEIGHT = 100;
 var FPS = 30;
 var FRAME = 0;
 var FISHDIRECTION = 1;
+var FISHWIDTH = 240;
+var FISHHEIGHT = 160;
 function drawLocWidget() {
     CTX.fillStyle = '#ff0000';
     CTX.lineWidth = 1;
