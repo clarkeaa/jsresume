@@ -84,13 +84,13 @@
         (let ((scalar (+ 0.5 (/ *position* 1000))))
           (case *fish-direction*
             (-1 (progn
-                  (ctx translate 120 80)
+                  (ctx translate (/ *fish-width* 2) 80)
                   (ctx scale (* -1 scalar) scalar)
-                  (ctx translate -120 -80)))
+                  (ctx translate (/ *fish-width* -2) -80)))
             (1 (progn
-                 (ctx translate 120 80)
+                 (ctx translate (/ *fish-width* 2) 80)
                  (ctx scale scalar scalar)
-                 (ctx translate -120 -80)))))
+                 (ctx translate (/ *fish-width* -2) -80)))))
       (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
         (ctx translate 0 yoffset))
       (ctx drawImage fish 0 0))))
