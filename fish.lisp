@@ -91,8 +91,12 @@
       (ctx drawImage fish 0 0))))
 
 (defun draw-water ()
-  (setf (@ *ctx* fillStyle) "#0000ff")
-  (ctx fillRect 0 0 *width* (- *height* *ground-height* *loc-widget-height*)))
+  (let* ((water-height (- *height* *ground-height* *loc-widget-height*))
+         (grad (ctx createLinearGradient 0 0 0 water-height)))
+    ((@ grad addColorStop) 0 "#3377ff")
+    ((@ grad addColorStop) 1 "#0000AA")
+    (setf (@ *ctx* fillStyle) grad)
+    (ctx fillRect 0 0 *width* water-height)))
 
 (defun draw ()
   (clear)

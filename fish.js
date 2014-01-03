@@ -34,8 +34,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g8676 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g8676.data;
+    var g9083 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g9083.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -45,7 +45,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g8676, 0, groundTop);
+    return CTX.putImageData(g9083, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
@@ -77,8 +77,12 @@ function drawAaronFish() {
     return CTX.restore();
 };
 function drawWater() {
-    CTX.fillStyle = '#0000ff';
-    return CTX.fillRect(0, 0, WIDTH, HEIGHT - GROUNDHEIGHT - LOCWIDGETHEIGHT);
+    var waterHeight = HEIGHT - GROUNDHEIGHT - LOCWIDGETHEIGHT;
+    var grad = CTX.createLinearGradient(0, 0, 0, waterHeight);
+    grad.addColorStop(0, '#3377ff');
+    grad.addColorStop(1, '#0000AA');
+    CTX.fillStyle = grad;
+    return CTX.fillRect(0, 0, WIDTH, waterHeight);
 };
 function draw() {
     CTX.clearRect(0, 0, WIDTH, HEIGHT);
