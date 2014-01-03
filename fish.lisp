@@ -83,8 +83,9 @@
     (with-ctx-state
         (case *fish-direction*
           (-1 (progn
-                (ctx translate 300 0)
-                (ctx scale -1 1)))
+                (ctx translate 120 0)
+                (ctx scale -1 1)
+                (ctx translate -120 0)))
           (1 (progn
                (ctx scale 1 1))))
       (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
