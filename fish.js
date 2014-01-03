@@ -68,6 +68,8 @@ function drawAaronFish() {
     case 1:
         CTX.scale(1, 1);
     };
+    var yoffset = 2 * Math.sin(2 * Math.PI * 0.5 * (FRAME / FPS));
+    CTX.translate(0, yoffset);
     CTX.drawImage(fish, 0, 0);
     return CTX.restore();
 };

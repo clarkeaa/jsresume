@@ -67,6 +67,8 @@
             (ctx scale -1 1)))
       (1 (progn
            (ctx scale 1 1))))
+    (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
+      (ctx translate 0 yoffset))
     (ctx drawImage fish 0 0)
     (ctx restore)))
 
