@@ -4,6 +4,7 @@ var HEIGHT = 480;
 var POSITION = 0;
 var LOCWIDGETHEIGHT = 20;
 var LOCWIDGETKNOBWIDTH = 20;
+var GROUNDHEIGHT = 100;
 function drawLocWidget() {
     CTX.fillStyle = '#ff0000';
     CTX.lineWidth = 1;
@@ -22,10 +23,16 @@ function handleKeyboard(event) {
         return POSITION += 1;
     };
 };
+function drawGround() {
+    CTX.fillStyle = '#996600';
+    var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
+    return CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
+};
 function draw() {
     CTX.clearRect(0, 0, WIDTH, HEIGHT);
     CTX.fillStyle = '#0000ff';
     CTX.fillRect(0, 0, WIDTH, HEIGHT);
+    drawGround();
     return drawLocWidget();
 };
 function main() {
