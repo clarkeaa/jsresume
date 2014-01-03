@@ -1,0 +1,16 @@
+body {
+    background-color: #000000;
+    text-color: #ffffff;
+}
+
+#canvas-div {
+    text-color: #ffffff;
+    background-color: #00ff00;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 640px;
+    vertical-align: middle;
+}
+
