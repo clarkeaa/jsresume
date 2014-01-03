@@ -6,7 +6,8 @@
   (with-open-file (ostr "fish.js" 
                         :if-does-not-exist :create 
                         :direction :output 
-                        :if-exists :overwrite)
+                        :if-exists :supersede)
     (let ((js (parenscript:ps-compile-file 
                "/Users/clarkeaa/dev/jsresume/fish.lisp")))
+      (format t "~a" js)
       (format ostr "~a" js))))
