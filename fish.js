@@ -7,6 +7,7 @@ var LOCWIDGETKNOBWIDTH = 20;
 var GROUNDHEIGHT = 100;
 var FPS = 30;
 var FRAME = 0;
+var FISHDIRECTION = 1;
 function drawLocWidget() {
     CTX.fillStyle = '#ff0000';
     CTX.lineWidth = 1;
@@ -20,9 +21,11 @@ function drawLocWidget() {
 function handleKeyboard(event) {
     switch (event.keyCode) {
     case 37:
-        return POSITION -= 1;
+        POSITION -= 1;
+        return FISHDIRECTION = -1;
     case 39:
-        return POSITION += 1;
+        POSITION += 1;
+        return FISHDIRECTION = 1;
     };
 };
 function drawGround() {
@@ -56,7 +59,17 @@ function drawAaronFish() {
     case 2:
         fish = document.getElementById('fish3');
     };
-    return CTX.drawImage(fish, 0, 0);
+    CTX.save();
+    switch (FISHDIRECTION) {
+    case -1:
+        CTX.translate(300, 0);
+        CTX.scale(-1, 1);
+        break;
+    case 1:
+        CTX.scale(1, 1);
+    };
+    CTX.drawImage(fish, 0, 0);
+    return CTX.restore();
 };
 function draw() {
     CTX.clearRect(0, 0, WIDTH, HEIGHT);

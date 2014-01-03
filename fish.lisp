@@ -8,6 +8,7 @@
 (defvar *ground-height* 100)
 (defvar *fps* 30)
 (defvar *frame* 0)
+(defvar *fish-direction* 1)
 
 (defmacro ctx (func &rest args) (cons `(@ *ctx* ,func) args))
 (defmacro clear () `(ctx clearRect 0 0 *width* *height*))
@@ -28,8 +29,11 @@
 
 (defun handle-keyboard (event)
   (case (@ event keyCode)
-    (37 (setf *position* (- *position* 1)))
-    (39 (setf *position* (+ *position* 1)))))
+    (37 (progn 
+          (setf *position* (- *position* 1))
+          (setf *fish-direction* -1)))
+    (39 (progn (setf *position* (+ *position* 1))
+               (setf *fish-direction* 1)))))
 
 (defun draw-ground ()
   (setf (@ *ctx* fillStyle) "#996600")
@@ -56,7 +60,15 @@
       (0 (setf fish ((@ document getElementById) "fish1")))
       (1 (setf fish ((@ document getElementById) "fish2")))
       (2 (setf fish ((@ document getElementById) "fish3"))))
-    (ctx drawImage fish 0 0)))
+    (ctx save)
+    (case *fish-direction*
+      (-1 (progn
+            (ctx translate 300 0)
+            (ctx scale -1 1)))
+      (1 (progn
+           (ctx scale 1 1))))
+    (ctx drawImage fish 0 0)
+    (ctx restore)))
 
 (defun draw ()
   (clear)
