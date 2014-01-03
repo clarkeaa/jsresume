@@ -4,6 +4,7 @@
 (defvar *height* 480)
 (defvar *position* 0)
 (defvar *loc-widget-height* 20)
+(defvar *loc-widget-knob-width* 20)
 
 (defmacro ctx (func &rest args) (cons `(@ *ctx* ,func) args))
 (defmacro clear () `(ctx clearRect 0 0 *width* *height*))
@@ -14,7 +15,18 @@
   (setf (@ *ctx* strokeStyle) "#00ff00")
   (let ((loc-widget-top (- *height* *loc-widget-height*)))
     (ctx fillRect 0 loc-widget-top *width* *loc-widget-height*)
-    (ctx strokeRect 0 loc-widget-top *width* *loc-widget-height*)))
+    (ctx strokeRect 0 loc-widget-top *width* *loc-widget-height*)
+    (setf (@ *ctx* fillStyle) "#000000")
+    (ctx fillRect 
+         (- *position* (/ *loc-widget-knob-width* 2))
+         loc-widget-top 
+         *loc-widget-knob-width* 
+         *loc-widget-height*)))
+
+(defun handle-keyboard (event)
+  (case (@ event keyCode)
+    (37 (setf *position* (- *position* 1)))
+    (39 (setf *position* (+ *position* 1)))))
 
 (defun draw ()
   (clear)
@@ -30,4 +42,5 @@
         (when ctx
           (setf *ctx* ctx)
           (draw)
+          (setf (@ document onkeydown) handle-keyboard)
           (setInterval draw 30))))))
