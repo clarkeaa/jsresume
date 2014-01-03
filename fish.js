@@ -34,8 +34,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g8528 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g8528.data;
+    var g8676 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g8676.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -45,7 +45,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g8528, 0, groundTop);
+    return CTX.putImageData(g8676, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
@@ -62,27 +62,28 @@ function drawAaronFish() {
     };
     CTX.save();
     var scalar = 0.5 + POSITION / 1000;
+    CTX.translate(FISHWIDTH / 2, 80);
     switch (FISHDIRECTION) {
     case -1:
-        CTX.translate(FISHWIDTH / 2, 80);
         CTX.scale(-1 * scalar, scalar);
-        CTX.translate(FISHWIDTH / -2, -80);
         break;
     case 1:
-        CTX.translate(FISHWIDTH / 2, 80);
         CTX.scale(scalar, scalar);
-        CTX.translate(FISHWIDTH / -2, -80);
     };
+    CTX.translate(FISHWIDTH / -2, -80);
     var yoffset = 2 * Math.sin(2 * Math.PI * 0.5 * (FRAME / FPS));
     CTX.translate(0, yoffset);
     CTX.drawImage(fish, 0, 0);
     return CTX.restore();
 };
+function drawWater() {
+    CTX.fillStyle = '#0000ff';
+    return CTX.fillRect(0, 0, WIDTH, HEIGHT - GROUNDHEIGHT - LOCWIDGETHEIGHT);
+};
 function draw() {
     CTX.clearRect(0, 0, WIDTH, HEIGHT);
     FRAME += 1;
-    CTX.fillStyle = '#0000ff';
-    CTX.fillRect(0, 0, WIDTH, HEIGHT);
+    drawWater();
     drawGround();
     drawAaronFish();
     return drawLocWidget();

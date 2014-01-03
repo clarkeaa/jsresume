@@ -54,9 +54,8 @@
 
 (defun handle-keyboard (event)
   (case (@ event keyCode)
-    (37 (progn 
-          (setf *position* (- *position* 1))
-          (setf *fish-direction* -1)))
+    (37 (progn (setf *position* (- *position* 1))
+               (setf *fish-direction* -1)))
     (39 (progn (setf *position* (+ *position* 1))
                (setf *fish-direction* 1)))))
 
@@ -82,28 +81,26 @@
       (2 (setf fish ((@ document getElementById) "fish3"))))
     (with-ctx-state
         (let ((scalar (+ 0.5 (/ *position* 1000))))
+          (ctx translate (/ *fish-width* 2) 80)
           (case *fish-direction*
-            (-1 (progn
-                  (ctx translate (/ *fish-width* 2) 80)
-                  (ctx scale (* -1 scalar) scalar)
-                  (ctx translate (/ *fish-width* -2) -80)))
-            (1 (progn
-                 (ctx translate (/ *fish-width* 2) 80)
-                 (ctx scale scalar scalar)
-                 (ctx translate (/ *fish-width* -2) -80)))))
+            (-1 (ctx scale (* -1 scalar) scalar))
+            (1 (ctx scale scalar scalar)))
+          (ctx translate (/ *fish-width* -2) -80))
       (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
         (ctx translate 0 yoffset))
       (ctx drawImage fish 0 0))))
 
+(defun draw-water ()
+  (setf (@ *ctx* fillStyle) "#0000ff")
+  (ctx fillRect 0 0 *width* (- *height* *ground-height* *loc-widget-height*)))
+
 (defun draw ()
   (clear)
   (setf *frame* (+ *frame* 1))
-  (setf (@ *ctx* fillStyle) "#0000ff")
-  (ctx fillRect 0 0 *width* *height*)
+  (draw-water)
   (draw-ground)
   (draw-aaron-fish)
-  (draw-loc-widget)
-  )
+  (draw-loc-widget))
 
 (defun main ()
   (let ((elem ((@ document getElementById) "resume-canvas")))
@@ -113,5 +110,4 @@
           (setf *ctx* ctx)
           (draw)
           (setf (@ document onkeydown) handle-keyboard)
-          (setInterval draw *fps*)
-          )))))
+          (setInterval draw *fps*))))))
