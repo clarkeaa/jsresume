@@ -34,9 +34,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var imgData = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = imgData.data;
-    var specks = [[0.5, 0.5], [0.2, 0.7], [0.25, 0.1]];
+    var g8195 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g8195.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -46,7 +45,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(imgData, 0, groundTop);
+    return CTX.putImageData(g8195, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
