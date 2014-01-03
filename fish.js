@@ -41,7 +41,7 @@ function drawGround() {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
             var depth = 1.0 + 0.5 * Math.sin(x * 1 + 7 * y * y + POSITION);
-            pix[0 + index] = depth * 200;
+            pix[index] = depth * 200;
             pix[1 + index] = depth * 100;
             pix[2 + index] = 0;
         };

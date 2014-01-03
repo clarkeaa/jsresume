@@ -12,13 +12,24 @@
 (defvar *fish-width* 240)
 (defvar *fish-height* 160)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defmacro ctx (func &rest args) (cons `(@ *ctx* ,func) args))
+
 (defmacro clear () `(ctx clearRect 0 0 *width* *height*))
+
 (defmacro with-ctx (&body body)
   `(progn 
      (ctx save)
      ,@body
      (ctx restore)))
+
+(defmacro setf-rgb (data index red green blue)
+  `(progn (setf (aref ,data ,index) ,red)
+          (setf (aref ,data (+ 1 ,index)) ,green)
+          (setf (aref ,data (+ 2 ,index)) ,blue)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun draw-loc-widget ()
   (setf (@ *ctx* fillStyle) "#ff0000")
@@ -55,9 +66,7 @@
                  (depth (+ 1.0 (* 0.5 (sin (+ (* x 1) 
                                               (* 7 y y) 
                                               *position*))))))
-            (setf (aref pix (+ 0 index)) (* depth 200))
-            (setf (aref pix (+ 1 index)) (* depth 100))
-            (setf (aref pix (+ 2 index)) 000))))
+            (setf-rgb pix index (* depth 200) (* depth 100) 0))))
       (ctx putImageData img-data 0 ground-top))))
 
 (defun draw-aaron-fish ()  
