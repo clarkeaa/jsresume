@@ -81,17 +81,18 @@
       (1 (setf fish ((@ document getElementById) "fish2")))
       (2 (setf fish ((@ document getElementById) "fish3"))))
     (with-ctx-state
-        (case *fish-direction*
-          (-1 (progn
-                (ctx translate 120 0)
-                (ctx scale -1 1)
-                (ctx translate -120 0)))
-          (1 (progn
-               (ctx scale 1 1))))
+        (let ((scalar (+ 0.5 (/ *position* 1000))))
+          (case *fish-direction*
+            (-1 (progn
+                  (ctx translate 120 80)
+                  (ctx scale (* -1 scalar) scalar)
+                  (ctx translate -120 -80)))
+            (1 (progn
+                 (ctx translate 120 80)
+                 (ctx scale scalar scalar)
+                 (ctx translate -120 -80)))))
       (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
         (ctx translate 0 yoffset))
-      ;; (let ((scalar (+ 0.5 (/ *position* 100))))
-      ;;   (ctx scale scalar scalar))
       (ctx drawImage fish 0 0))))
 
 (defun draw ()
