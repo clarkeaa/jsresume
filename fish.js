@@ -19,7 +19,8 @@ function drawLocWidget() {
     CTX.lineWidth = 1;
     CTX.strokeStyle = '#00ff00';
     var locWidgetTop = HEIGHT - LOCWIDGETHEIGHT;
-    CTX.fillRect(0, locWidgetTop, WIDTH, LOCWIDGETHEIGHT);
+    var locWidget = document.getElementById('locwidget');
+    CTX.drawImage(locWidget, 0, locWidgetTop);
     CTX.fillStyle = '#000000';
     return CTX.strokeRect((WIDTH - LOCWIDGETKNOBWIDTH) * ((POSITION - MINPOSITION) / (MAXPOSITION - MINPOSITION)), locWidgetTop, LOCWIDGETKNOBWIDTH, LOCWIDGETHEIGHT);
 };
@@ -39,8 +40,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g13450 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g13450.data;
+    var g13523 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g13523.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -50,7 +51,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g13450, 0, groundTop);
+    return CTX.putImageData(g13523, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;

@@ -46,8 +46,9 @@
   (setf (@ *ctx* fillStyle) "#ff0000")
   (setf (@ *ctx* lineWidth) 1)
   (setf (@ *ctx* strokeStyle) "#00ff00")
-  (let ((loc-widget-top (- *height* *loc-widget-height*)))
-    (ctx fillRect 0 loc-widget-top *width* *loc-widget-height*)
+  (let ((loc-widget-top (- *height* *loc-widget-height*))
+        (loc-widget ((@ document getElementById) "locwidget")))
+    (ctx drawImage loc-widget 0 loc-widget-top))
     (setf (@ *ctx* fillStyle) "#000000")
     (ctx strokeRect 
          (* (- *width* *loc-widget-knob-width*)
@@ -55,7 +56,7 @@
                (- *max-position* *min-position*)))
          loc-widget-top 
          *loc-widget-knob-width* 
-         *loc-widget-height*)))
+         *loc-widget-height*))
 
 (defun handle-keyboard (event)
   (case (@ event keyCode)
