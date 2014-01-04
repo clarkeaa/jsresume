@@ -13,7 +13,8 @@
 (defvar *fish-height* 160)
 (defvar *input-time* 0)
 (defvar *min-position* -100)
-(defvar *max-position* 1000)
+(defvar *max-position* 3800)
+(defvar *move-speed* 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -58,10 +59,10 @@
 
 (defun handle-keyboard (event)
   (case (@ event keyCode)
-    (37 (progn (setf *position* (max  (- *position* 5) *min-position*))
+    (37 (progn (setf *position* (max  (- *position* *move-speed*) *min-position*))
                (setf *fish-direction* -1)
                (setf *input-time* *frame*)))
-    (39 (progn (setf *position* (min (+ *position* 5) *max-position*))
+    (39 (progn (setf *position* (min (+ *position* *move-speed*) *max-position*))
                (setf *fish-direction* 1)
                (setf *input-time* *frame*)))))
 
@@ -111,11 +112,11 @@
     (setf (@ *ctx* fillStyle) grad)
     (ctx fillRect 0 0 *width* water-height)))
 
-(defun draw-title ()
-  (let ((title ((@ document getElementById) "title")))
+(defun draw-image (id-name x-offset)
+  (let ((title ((@ document getElementById) id-name)))
     (with-ctx-state
         (ctx translate (* -1 *position*) 0)
-      (ctx drawImage title 0 0))))
+      (ctx drawImage title x-offset 0))))
 
 (defun draw-weed (scalar x-offset y-offset parallax repeat-buffer anim-speed)
   (let* ((weed-index (% (Math.floor (/ *frame* anim-speed)) 3))
@@ -141,7 +142,11 @@
   (draw-weed 0.2 0 300 0.5 700 13)
   (draw-weed 0.2 0 300 0.5 300 11)
   (draw-weed 0.2 0 300 0.5 30 10.5)
-  (draw-title)
+  (draw-image "title" 0)
+  (draw-image "lpt" 900)
+  (draw-image "techsmith" (* 2 900))
+  (draw-image "education" (* 3 900))
+  (draw-image "contact" (* 4 900))
   (draw-aaron-fish)
   (draw-loc-widget)
   (draw-weed 0.5 1000 280 2.0 700 13)

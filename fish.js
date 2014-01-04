@@ -12,7 +12,8 @@ var FISHWIDTH = 240;
 var FISHHEIGHT = 160;
 var INPUTTIME = 0;
 var MINPOSITION = -100;
-var MAXPOSITION = 1000;
+var MAXPOSITION = 3800;
+var MOVESPEED = 10;
 function drawLocWidget() {
     CTX.fillStyle = '#ff0000';
     CTX.lineWidth = 1;
@@ -25,11 +26,11 @@ function drawLocWidget() {
 function handleKeyboard(event) {
     switch (event.keyCode) {
     case 37:
-        POSITION = Math.max(POSITION - 5, MINPOSITION);
+        POSITION = Math.max(POSITION - MOVESPEED, MINPOSITION);
         FISHDIRECTION = -1;
         return INPUTTIME = FRAME;
     case 39:
-        POSITION = Math.min(POSITION + 5, MAXPOSITION);
+        POSITION = Math.min(POSITION + MOVESPEED, MAXPOSITION);
         FISHDIRECTION = 1;
         return INPUTTIME = FRAME;
     };
@@ -38,8 +39,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g12932 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g12932.data;
+    var g13450 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g13450.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -49,7 +50,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g12932, 0, groundTop);
+    return CTX.putImageData(g13450, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
@@ -102,11 +103,11 @@ function drawWater() {
     CTX.fillStyle = grad;
     return CTX.fillRect(0, 0, WIDTH, waterHeight);
 };
-function drawTitle() {
-    var title = document.getElementById('title');
+function drawImage(idName, xOffset) {
+    var title = document.getElementById(idName);
     CTX.save();
     CTX.translate(-1 * POSITION, 0);
-    CTX.drawImage(title, 0, 0);
+    CTX.drawImage(title, xOffset, 0);
     return CTX.restore();
 };
 function drawWeed(scalar, xOffset, yOffset, parallax, repeatBuffer, animSpeed) {
@@ -136,7 +137,11 @@ function draw() {
     drawWeed(0.2, 0, 300, 0.5, 700, 13);
     drawWeed(0.2, 0, 300, 0.5, 300, 11);
     drawWeed(0.2, 0, 300, 0.5, 30, 10.5);
-    drawTitle();
+    drawImage('title', 0);
+    drawImage('lpt', 900);
+    drawImage('techsmith', 2 * 900);
+    drawImage('education', 3 * 900);
+    drawImage('contact', 4 * 900);
     drawAaronFish();
     drawLocWidget();
     drawWeed(0.5, 1000, 280, 2.0, 700, 13);
