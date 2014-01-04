@@ -37,8 +37,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g9231 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g9231.data;
+    var g10157 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g10157.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -48,7 +48,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g9231, 0, groundTop);
+    return CTX.putImageData(g10157, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
@@ -77,7 +77,7 @@ function drawAaronFish() {
         };
     };
     CTX.save();
-    var scalar = 0.5 + POSITION / 1000;
+    var scalar = 0.5;
     CTX.translate(FISHWIDTH / 2, 80);
     switch (FISHDIRECTION) {
     case -1:
@@ -86,6 +86,7 @@ function drawAaronFish() {
     case 1:
         CTX.scale(scalar, scalar);
     };
+    CTX.translate(0, 20);
     CTX.translate(FISHWIDTH / -2, -80);
     var yoffset = 2 * Math.sin(2 * Math.PI * 0.5 * (FRAME / FPS));
     CTX.translate(0, yoffset);
@@ -107,6 +108,25 @@ function drawTitle() {
     CTX.drawImage(title, 0, 0);
     return CTX.restore();
 };
+function drawWeeds() {
+    var weedIndex = Math.floor(FRAME / 13) % 3;
+    var weed = null;
+    switch (weedIndex) {
+    case 0:
+        weed = document.getElementById('weed1');
+        break;
+    case 1:
+        weed = document.getElementById('weed2');
+        break;
+    case 2:
+        weed = document.getElementById('weed3');
+    };
+    CTX.save();
+    CTX.scale(0.6, 0.6);
+    CTX.translate(-1 * (POSITION % 500), 400);
+    CTX.drawImage(weed, 0, 0);
+    return CTX.restore();
+};
 function draw() {
     CTX.clearRect(0, 0, WIDTH, HEIGHT);
     FRAME += 1;
@@ -114,7 +134,8 @@ function draw() {
     drawGround();
     drawTitle();
     drawAaronFish();
-    return drawLocWidget();
+    drawLocWidget();
+    return drawWeeds();
 };
 function main() {
     var elem = document.getElementById('resume-canvas');

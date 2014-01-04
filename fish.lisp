@@ -88,12 +88,14 @@
           (1 (setf fish ((@ document getElementById) "fish2")))
           (2 (setf fish ((@ document getElementById) "fish3")))))
     (with-ctx-state
-        (let ((scalar (+ 0.5 (/ *position* 1000))))
+        (let ((scalar 0.5;(+ 0.5 (/ *position* 1000))
+               ))
           (ctx translate (/ *fish-width* 2) 80)
           (case *fish-direction*
             (-1 (ctx scale (* -1 scalar) scalar))
             (1 (ctx scale scalar scalar)))
-          (ctx translate (/ *fish-width* -2) -80))
+          (ctx translate 0 20))
+          (ctx translate (/ *fish-width* -2) -80)
       (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
         (ctx translate 0 yoffset))
       (ctx drawImage fish 0 0))))
@@ -110,7 +112,19 @@
   (let ((title ((@ document getElementById) "title")))
     (with-ctx-state
         (ctx translate (* -1 *position*) 0)
-        (ctx drawImage title 0 0))))
+      (ctx drawImage title 0 0))))
+
+(defun draw-weeds ()
+  (let* ((weed-index (% (Math.floor (/ *frame* 13)) 3))
+         weed)
+    (case weed-index
+      (0 (setf weed ((@ document getElementById) "weed1")))
+      (1 (setf weed ((@ document getElementById) "weed2")))
+      (2 (setf weed ((@ document getElementById) "weed3"))))
+    (with-ctx-state
+        (ctx scale 0.6 0.6)
+      (ctx translate (* -1 (% *position* 500)) 400)
+      (ctx drawImage weed 0 0))))
 
 (defun draw ()
   (clear)
@@ -120,6 +134,7 @@
   (draw-title)
   (draw-aaron-fish)
   (draw-loc-widget)
+  (draw-weeds)
   )
 
 (defun main ()
