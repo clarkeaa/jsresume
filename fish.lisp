@@ -43,13 +43,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun draw-loc-widget ()
-  (setf (@ *ctx* fillStyle) "#ff0000")
-  (setf (@ *ctx* lineWidth) 1)
+  (setf (@ *ctx* lineWidth) 2)
   (setf (@ *ctx* strokeStyle) "#00ff00")
   (let ((loc-widget-top (- *height* *loc-widget-height*))
         (loc-widget ((@ document getElementById) "locwidget")))
     (ctx drawImage loc-widget 0 loc-widget-top))
-    (setf (@ *ctx* fillStyle) "#000000")
     (ctx strokeRect 
          (* (- *width* *loc-widget-knob-width*)
             (/ (- *position* *min-position*)
