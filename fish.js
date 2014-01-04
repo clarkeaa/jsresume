@@ -37,8 +37,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g10157 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g10157.data;
+    var g11230 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g11230.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -48,7 +48,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g10157, 0, groundTop);
+    return CTX.putImageData(g11230, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
@@ -108,8 +108,8 @@ function drawTitle() {
     CTX.drawImage(title, 0, 0);
     return CTX.restore();
 };
-function drawWeeds() {
-    var weedIndex = Math.floor(FRAME / 13) % 3;
+function drawWeed(scalar, yOffset, parallax, repeatBuffer, animSpeed) {
+    var weedIndex = Math.floor(FRAME / animSpeed) % 3;
     var weed = null;
     switch (weedIndex) {
     case 0:
@@ -122,8 +122,8 @@ function drawWeeds() {
         weed = document.getElementById('weed3');
     };
     CTX.save();
-    CTX.scale(0.6, 0.6);
-    CTX.translate(-1 * (POSITION % 500), 400);
+    CTX.translate((WIDTH + repeatBuffer / 2) - (parallax * POSITION) % (WIDTH + repeatBuffer), yOffset);
+    CTX.scale(scalar, scalar);
     CTX.drawImage(weed, 0, 0);
     return CTX.restore();
 };
@@ -135,7 +135,8 @@ function draw() {
     drawTitle();
     drawAaronFish();
     drawLocWidget();
-    return drawWeeds();
+    drawWeed(0.5, 280, 2.0, 700, 13);
+    return drawWeed(0.5, 280, 2.0, 300, 11);
 };
 function main() {
     var elem = document.getElementById('resume-canvas');

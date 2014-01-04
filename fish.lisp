@@ -114,16 +114,19 @@
         (ctx translate (* -1 *position*) 0)
       (ctx drawImage title 0 0))))
 
-(defun draw-weeds ()
-  (let* ((weed-index (% (Math.floor (/ *frame* 13)) 3))
+(defun draw-weed (scalar y-offset parallax repeat-buffer anim-speed)
+  (let* ((weed-index (% (Math.floor (/ *frame* anim-speed)) 3))
          weed)
     (case weed-index
       (0 (setf weed ((@ document getElementById) "weed1")))
       (1 (setf weed ((@ document getElementById) "weed2")))
       (2 (setf weed ((@ document getElementById) "weed3"))))
     (with-ctx-state
-        (ctx scale 0.6 0.6)
-      (ctx translate (* -1 (% *position* 500)) 400)
+        (ctx translate 
+             (- (+ *width* (/ repeat-buffer 2)) 
+                (% (* parallax *position*) (+ *width* repeat-buffer))) 
+             y-offset)
+      (ctx scale scalar scalar)      
       (ctx drawImage weed 0 0))))
 
 (defun draw ()
@@ -134,7 +137,8 @@
   (draw-title)
   (draw-aaron-fish)
   (draw-loc-widget)
-  (draw-weeds)
+  (draw-weed 0.5 280 2.0 700 13)
+  (draw-weed 0.5 280 2.0 300 11)
   )
 
 (defun main ()
