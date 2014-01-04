@@ -1,11 +1,12 @@
 body {
     background-color: #000000;
     text-color: #ffffff;
+    font-family: Courier New;
+    font-size: 24px;
 }
 
 #canvas-div {
     text-color: #ffffff;
-    background-color: #00ff00;
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
@@ -16,4 +17,9 @@ body {
 
 img {
     display:none;
+}
+
+#return-link {
+    float: right; 
+    margin: 0px; 
 }
