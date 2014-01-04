@@ -11,6 +11,7 @@
 (defvar *fish-direction* 1)
 (defvar *fish-width* 240)
 (defvar *fish-height* 160)
+(defvar *input-time* 0)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -55,9 +56,11 @@
 (defun handle-keyboard (event)
   (case (@ event keyCode)
     (37 (progn (setf *position* (- *position* 5))
-               (setf *fish-direction* -1)))
+               (setf *fish-direction* -1)
+               (setf *input-time* *frame*)))
     (39 (progn (setf *position* (+ *position* 5))
-               (setf *fish-direction* 1)))))
+               (setf *fish-direction* 1)
+               (setf *input-time* *frame*)))))
 
 (defun draw-ground ()
   (setf (@ *ctx* fillStyle) "#996600")
@@ -75,10 +78,15 @@
 (defun draw-aaron-fish ()  
   (let* ((fish-index (% (Math.floor (/ *frame* 10)) 3))
          fish)
-    (case fish-index
-      (0 (setf fish ((@ document getElementById) "fish1")))
-      (1 (setf fish ((@ document getElementById) "fish2")))
-      (2 (setf fish ((@ document getElementById) "fish3"))))
+    (if (< (- *frame* *input-time*) 10)
+        (case fish-index
+          (0 (setf fish ((@ document getElementById) "fish1swim")))
+          (1 (setf fish ((@ document getElementById) "fish2swim")))
+          (2 (setf fish ((@ document getElementById) "fish3swim"))))
+        (case fish-index
+          (0 (setf fish ((@ document getElementById) "fish1")))
+          (1 (setf fish ((@ document getElementById) "fish2")))
+          (2 (setf fish ((@ document getElementById) "fish3")))))
     (with-ctx-state
         (let ((scalar (+ 0.5 (/ *position* 1000))))
           (ctx translate (/ *fish-width* 2) 80)

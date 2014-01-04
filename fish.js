@@ -10,6 +10,7 @@ var FRAME = 0;
 var FISHDIRECTION = 1;
 var FISHWIDTH = 240;
 var FISHHEIGHT = 160;
+var INPUTTIME = 0;
 function drawLocWidget() {
     CTX.fillStyle = '#ff0000';
     CTX.lineWidth = 1;
@@ -24,18 +25,20 @@ function handleKeyboard(event) {
     switch (event.keyCode) {
     case 37:
         POSITION -= 5;
-        return FISHDIRECTION = -1;
+        FISHDIRECTION = -1;
+        return INPUTTIME = FRAME;
     case 39:
         POSITION += 5;
-        return FISHDIRECTION = 1;
+        FISHDIRECTION = 1;
+        return INPUTTIME = FRAME;
     };
 };
 function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g9194 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g9194.data;
+    var g9231 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g9231.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -45,20 +48,33 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g9194, 0, groundTop);
+    return CTX.putImageData(g9231, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
     var fish = null;
-    switch (fishIndex) {
-    case 0:
-        fish = document.getElementById('fish1');
-        break;
-    case 1:
-        fish = document.getElementById('fish2');
-        break;
-    case 2:
-        fish = document.getElementById('fish3');
+    if (FRAME - INPUTTIME < 10) {
+        switch (fishIndex) {
+        case 0:
+            fish = document.getElementById('fish1swim');
+            break;
+        case 1:
+            fish = document.getElementById('fish2swim');
+            break;
+        case 2:
+            fish = document.getElementById('fish3swim');
+        };
+    } else {
+        switch (fishIndex) {
+        case 0:
+            fish = document.getElementById('fish1');
+            break;
+        case 1:
+            fish = document.getElementById('fish2');
+            break;
+        case 2:
+            fish = document.getElementById('fish3');
+        };
     };
     CTX.save();
     var scalar = 0.5 + POSITION / 1000;
