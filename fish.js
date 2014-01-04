@@ -37,8 +37,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g11563 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g11563.data;
+    var g12488 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g12488.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -48,7 +48,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g11563, 0, groundTop);
+    return CTX.putImageData(g12488, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
@@ -108,7 +108,7 @@ function drawTitle() {
     CTX.drawImage(title, 0, 0);
     return CTX.restore();
 };
-function drawWeed(scalar, yOffset, parallax, repeatBuffer, animSpeed) {
+function drawWeed(scalar, xOffset, yOffset, parallax, repeatBuffer, animSpeed) {
     var weedIndex = Math.floor(FRAME / animSpeed) % 3;
     var weed = null;
     switch (weedIndex) {
@@ -122,7 +122,7 @@ function drawWeed(scalar, yOffset, parallax, repeatBuffer, animSpeed) {
         weed = document.getElementById('weed3');
     };
     CTX.save();
-    CTX.translate((WIDTH + repeatBuffer / 2) - (parallax * POSITION) % (WIDTH + repeatBuffer), yOffset);
+    CTX.translate((WIDTH + repeatBuffer / 2) - (parallax * POSITION + xOffset) % (WIDTH + repeatBuffer), yOffset);
     CTX.scale(scalar, scalar);
     CTX.drawImage(weed, 0, 0);
     return CTX.restore();
@@ -132,14 +132,14 @@ function draw() {
     FRAME += 1;
     drawWater();
     drawGround();
-    drawWeed(0.2, 300, 0.5, 700, 13);
-    drawWeed(0.2, 300, 0.5, 300, 11);
-    drawWeed(0.2, 300, 0.5, 30, 10.5);
+    drawWeed(0.2, 0, 300, 0.5, 700, 13);
+    drawWeed(0.2, 0, 300, 0.5, 300, 11);
+    drawWeed(0.2, 0, 300, 0.5, 30, 10.5);
     drawTitle();
     drawAaronFish();
     drawLocWidget();
-    drawWeed(0.5, 280, 2.0, 700, 13);
-    return drawWeed(0.5, 280, 2.0, 300, 11);
+    drawWeed(0.5, 1000, 280, 2.0, 700, 13);
+    return drawWeed(0.5, 200, 280, 2.0, 300, 11);
 };
 function main() {
     var elem = document.getElementById('resume-canvas');
