@@ -20,7 +20,7 @@ function drawLocWidget() {
     var locWidgetTop = HEIGHT - LOCWIDGETHEIGHT;
     CTX.fillRect(0, locWidgetTop, WIDTH, LOCWIDGETHEIGHT);
     CTX.fillStyle = '#000000';
-    return CTX.strokeRect(WIDTH * ((POSITION - MINPOSITION) / (MAXPOSITION - MINPOSITION)), locWidgetTop, LOCWIDGETKNOBWIDTH, LOCWIDGETHEIGHT);
+    return CTX.strokeRect((WIDTH - LOCWIDGETKNOBWIDTH) * ((POSITION - MINPOSITION) / (MAXPOSITION - MINPOSITION)), locWidgetTop, LOCWIDGETKNOBWIDTH, LOCWIDGETHEIGHT);
 };
 function handleKeyboard(event) {
     switch (event.keyCode) {
@@ -38,8 +38,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g12895 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g12895.data;
+    var g12932 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g12932.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -49,7 +49,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g12895, 0, groundTop);
+    return CTX.putImageData(g12932, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;

@@ -49,7 +49,7 @@
     (ctx fillRect 0 loc-widget-top *width* *loc-widget-height*)
     (setf (@ *ctx* fillStyle) "#000000")
     (ctx strokeRect 
-         (* *width*
+         (* (- *width* *loc-widget-knob-width*)
             (/ (- *position* *min-position*)
                (- *max-position* *min-position*)))
          loc-widget-top 
