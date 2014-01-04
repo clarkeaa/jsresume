@@ -4,7 +4,7 @@
 (defvar *height* 480)
 (defvar *position* 0)
 (defvar *loc-widget-height* 20)
-(defvar *loc-widget-knob-width* 20)
+(defvar *loc-widget-knob-width* 26)
 (defvar *ground-height* 100)
 (defvar *fps* 30)
 (defvar *frame* 0)
@@ -12,6 +12,8 @@
 (defvar *fish-width* 240)
 (defvar *fish-height* 160)
 (defvar *input-time* 0)
+(defvar *min-position* -100)
+(defvar *max-position* 1000)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -45,20 +47,21 @@
   (setf (@ *ctx* strokeStyle) "#00ff00")
   (let ((loc-widget-top (- *height* *loc-widget-height*)))
     (ctx fillRect 0 loc-widget-top *width* *loc-widget-height*)
-    (ctx strokeRect 0 loc-widget-top *width* *loc-widget-height*)
     (setf (@ *ctx* fillStyle) "#000000")
-    (ctx fillRect 
-         (- *position* (/ *loc-widget-knob-width* 2))
+    (ctx strokeRect 
+         (* *width*
+            (/ (- *position* *min-position*)
+               (- *max-position* *min-position*)))
          loc-widget-top 
          *loc-widget-knob-width* 
          *loc-widget-height*)))
 
 (defun handle-keyboard (event)
   (case (@ event keyCode)
-    (37 (progn (setf *position* (- *position* 5))
+    (37 (progn (setf *position* (max  (- *position* 5) *min-position*))
                (setf *fish-direction* -1)
                (setf *input-time* *frame*)))
-    (39 (progn (setf *position* (+ *position* 5))
+    (39 (progn (setf *position* (min (+ *position* 5) *max-position*))
                (setf *fish-direction* 1)
                (setf *input-time* *frame*)))))
 

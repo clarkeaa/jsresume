@@ -3,7 +3,7 @@ var WIDTH = 640;
 var HEIGHT = 480;
 var POSITION = 0;
 var LOCWIDGETHEIGHT = 20;
-var LOCWIDGETKNOBWIDTH = 20;
+var LOCWIDGETKNOBWIDTH = 26;
 var GROUNDHEIGHT = 100;
 var FPS = 30;
 var FRAME = 0;
@@ -11,24 +11,25 @@ var FISHDIRECTION = 1;
 var FISHWIDTH = 240;
 var FISHHEIGHT = 160;
 var INPUTTIME = 0;
+var MINPOSITION = -100;
+var MAXPOSITION = 1000;
 function drawLocWidget() {
     CTX.fillStyle = '#ff0000';
     CTX.lineWidth = 1;
     CTX.strokeStyle = '#00ff00';
     var locWidgetTop = HEIGHT - LOCWIDGETHEIGHT;
     CTX.fillRect(0, locWidgetTop, WIDTH, LOCWIDGETHEIGHT);
-    CTX.strokeRect(0, locWidgetTop, WIDTH, LOCWIDGETHEIGHT);
     CTX.fillStyle = '#000000';
-    return CTX.fillRect(POSITION - LOCWIDGETKNOBWIDTH / 2, locWidgetTop, LOCWIDGETKNOBWIDTH, LOCWIDGETHEIGHT);
+    return CTX.strokeRect(WIDTH * ((POSITION - MINPOSITION) / (MAXPOSITION - MINPOSITION)), locWidgetTop, LOCWIDGETKNOBWIDTH, LOCWIDGETHEIGHT);
 };
 function handleKeyboard(event) {
     switch (event.keyCode) {
     case 37:
-        POSITION -= 5;
+        POSITION = Math.max(POSITION - 5, MINPOSITION);
         FISHDIRECTION = -1;
         return INPUTTIME = FRAME;
     case 39:
-        POSITION += 5;
+        POSITION = Math.min(POSITION + 5, MAXPOSITION);
         FISHDIRECTION = 1;
         return INPUTTIME = FRAME;
     };
@@ -37,8 +38,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g12488 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g12488.data;
+    var g12895 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g12895.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -48,7 +49,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g12488, 0, groundTop);
+    return CTX.putImageData(g12895, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
