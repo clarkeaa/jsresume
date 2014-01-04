@@ -96,7 +96,7 @@
             (1 (ctx scale scalar scalar)))
           (ctx translate 0 20))
           (ctx translate (/ *fish-width* -2) -80)
-      (let ((yoffset (* 2 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
+      (let ((yoffset (* 4 (sin (* 2 pi 0.5 (/ *frame* *fps*))))))
         (ctx translate 0 yoffset))
       (ctx drawImage fish 0 0))))
 
@@ -134,6 +134,9 @@
   (setf *frame* (+ *frame* 1))
   (draw-water)
   (draw-ground)
+  (draw-weed 0.2 300 0.5 700 13)
+  (draw-weed 0.2 300 0.5 300 11)
+  (draw-weed 0.2 300 0.5 30 10.5)
   (draw-title)
   (draw-aaron-fish)
   (draw-loc-widget)
