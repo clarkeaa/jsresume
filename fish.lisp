@@ -54,9 +54,9 @@
 
 (defun handle-keyboard (event)
   (case (@ event keyCode)
-    (37 (progn (setf *position* (- *position* 1))
+    (37 (progn (setf *position* (- *position* 5))
                (setf *fish-direction* -1)))
-    (39 (progn (setf *position* (+ *position* 1))
+    (39 (progn (setf *position* (+ *position* 5))
                (setf *fish-direction* 1)))))
 
 (defun draw-ground ()
@@ -98,13 +98,21 @@
     (setf (@ *ctx* fillStyle) grad)
     (ctx fillRect 0 0 *width* water-height)))
 
+(defun draw-title ()
+  (let ((title ((@ document getElementById) "title")))
+    (with-ctx-state
+        (ctx translate (* -1 *position*) 0)
+        (ctx drawImage title 0 0))))
+
 (defun draw ()
   (clear)
   (setf *frame* (+ *frame* 1))
   (draw-water)
   (draw-ground)
+  (draw-title)
   (draw-aaron-fish)
-  (draw-loc-widget))
+  (draw-loc-widget)
+  )
 
 (defun main ()
   (let ((elem ((@ document getElementById) "resume-canvas")))

@@ -23,10 +23,10 @@ function drawLocWidget() {
 function handleKeyboard(event) {
     switch (event.keyCode) {
     case 37:
-        POSITION -= 1;
+        POSITION -= 5;
         return FISHDIRECTION = -1;
     case 39:
-        POSITION += 1;
+        POSITION += 5;
         return FISHDIRECTION = 1;
     };
 };
@@ -34,8 +34,8 @@ function drawGround() {
     CTX.fillStyle = '#996600';
     var groundTop = HEIGHT - LOCWIDGETHEIGHT - GROUNDHEIGHT;
     CTX.fillRect(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var g9083 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
-    var pix = g9083.data;
+    var g9194 = CTX.getImageData(0, groundTop, WIDTH, GROUNDHEIGHT);
+    var pix = g9194.data;
     for (var y = 0; y < GROUNDHEIGHT; y += 1) {
         for (var x = 0; x < WIDTH; x += 1) {
             var index = 4 * (x + WIDTH * y);
@@ -45,7 +45,7 @@ function drawGround() {
             pix[2 + index] = 0;
         };
     };
-    return CTX.putImageData(g9083, 0, groundTop);
+    return CTX.putImageData(g9194, 0, groundTop);
 };
 function drawAaronFish() {
     var fishIndex = Math.floor(FRAME / 10) % 3;
@@ -84,11 +84,19 @@ function drawWater() {
     CTX.fillStyle = grad;
     return CTX.fillRect(0, 0, WIDTH, waterHeight);
 };
+function drawTitle() {
+    var title = document.getElementById('title');
+    CTX.save();
+    CTX.translate(-1 * POSITION, 0);
+    CTX.drawImage(title, 0, 0);
+    return CTX.restore();
+};
 function draw() {
     CTX.clearRect(0, 0, WIDTH, HEIGHT);
     FRAME += 1;
     drawWater();
     drawGround();
+    drawTitle();
     drawAaronFish();
     return drawLocWidget();
 };
